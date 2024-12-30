@@ -1,0 +1,116 @@
+<html>
+  <body>
+    <style>
+      * {
+        margin: 0;
+      }
+      body {
+        min-height: 100vh;
+        background: linear-gradient(60deg, #420285, #08bdbd);
+        color: #333;
+        display: grid;
+        align-items: center;
+        justify-content: center;
+      }
+      .carousel {
+        position: relative;
+        width: 380px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+      }
+      .item {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        width: 100%;
+        padding: 0 12px;
+        opacity: 0;
+        filter: drop-shadow(0 2px 2px #555);
+        will-change: transform, opacity;
+      }
+      .item-body {
+        width: 100%;
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 16px 20px;
+      }
+      .title {
+        text-transform: uppercase;
+        font-size: 20px;
+        margin-top: 10px;
+      }
+      @keyframes carousel-animate-vertical {
+        0% {
+          transform: translate(0, 100%);
+          scale: 0.5;
+          opacity: 0;
+          visibility: hidden;
+        }
+        3%,
+        11% {
+          transform: translate(0, 100%);
+          scale: 0.7;
+          opacity: 0.4;
+          visibility: visible;
+        }
+        14%,
+        22% {
+          transform: translate(0, 0);
+          scale: 1;
+          opacity: 1;
+          visibility: visible;
+        }
+        25%,
+        33% {
+          transform: translate(0, -100%);
+          scale: 0.7;
+          opacity: 0.4;
+          visibility: visible;
+        }
+        36% {
+          transform: translate(0, -100%);
+          scale: 0.5;
+          opacity: 0;
+          visibility: visible;
+        }
+        100% {
+          transform: translate(0, -100%);
+          scale: 0.5;
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+      .item {
+        --animation-delay-fraction: 3s;
+        animation: carousel-animate-vertical 27s linear infinite;
+        animation-delay: calc(var(--animation-delay-fraction) * (var(--index) - 3));
+      }
+    </style>
+    <div class="carousel" id="carousel"></div>
+    <script>
+      const items = [
+        { title: "HTML", unicode: "U+1F433" },
+        { title: "CSS", unicode: "U+1F40B" },
+        { title: "JavaScript", unicode: "U+1F42C" },
+        { title: "React JS", unicode: "U+1F41F" },
+        { title: "Node JS", unicode: "U+1F420" },
+      ];
+
+      const carousel = document.getElementById("carousel");
+
+      items.forEach((item, index) => {
+        const carouselItem = document.createElement("div");
+        carouselItem.classList.add("item");
+        carouselItem.style.setProperty("--index", index + 1);
+        carouselItem.innerHTML = `
+          <div class="item-body">
+            <p class="title">${item.title}</p>
+            <p>Unicode: ${item.unicode}</p>
+          </div>
+        `;
+        carousel.appendChild(carouselItem);
+      });
+    </script>
+  </body>
+</html>
